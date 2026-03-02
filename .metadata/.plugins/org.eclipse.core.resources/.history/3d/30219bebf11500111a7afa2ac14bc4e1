@@ -1,0 +1,9 @@
+package com.example.demo.service;
+
+import com.example.demo.dto.PayRequest;
+import com.example.demo.dto.PaymentResponse;
+
+public interface PaymentService {
+    PaymentResponse pay(String username, PayRequest req);
+    PaymentResponse status(String username, Long orderId);
+}

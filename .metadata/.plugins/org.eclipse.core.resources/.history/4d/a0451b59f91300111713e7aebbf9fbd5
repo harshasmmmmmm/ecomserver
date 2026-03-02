@@ -1,0 +1,12 @@
+package com.example.demo.dto;
+
+import lombok.*;
+
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class ProductInternalDTO {
+    private Long productId;
+    private String productName;
+    private double price;
+    private boolean active;
+    private Integer vendorId;
+}

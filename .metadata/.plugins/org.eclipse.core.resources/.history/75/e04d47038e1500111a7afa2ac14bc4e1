@@ -1,0 +1,14 @@
+spring.application.name=Cartservice
+server.port=8085
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/.requestMatchers("/auth/internal/**").permitAll()
+spring.datasource.username=postgres
+spring.datasource.password=slk@SOFT123
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+spring.cloud.config.enabled=false
+
+services.security=http://localhost:9999

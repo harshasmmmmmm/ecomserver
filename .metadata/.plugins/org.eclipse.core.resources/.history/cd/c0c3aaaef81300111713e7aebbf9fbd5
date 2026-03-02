@@ -1,0 +1,14 @@
+package com.example.demo.service;
+
+import com.example.demo.dto.ProductResponse;
+import java.util.List;
+
+public interface ProductService {
+    List<ProductResponse> viewAll();
+    List<ProductResponse> viewByCategory(String category);
+    List<ProductResponse> viewByProductName(String productName);
+    List<ProductResponse> viewByVendorName(String vendorName);
+
+    // internal use later for order-service
+    ProductResponse getById(Long productId);
+}

@@ -1,0 +1,58 @@
+package com.example.demo.service.impl;
+
+import com.example.demo.dto.ProductResponse;
+import com.example.demo.entity.Product;
+import com.example.demo.repo.ProductRepo;
+import com.example.demo.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class ProductServiceImpl implements ProductService {
+
+    private final ProductRepo repo;
+
+    private ProductResponse map(Product p) {
+        return ProductResponse.builder()
+                .productId(p.getProductId())
+                .productName(p.getProductName())
+                .description(p.getDescription())
+                .price(p.getPrice())
+                .vendorId(p.getVendorId())
+                .vendorName(p.getVendorName())
+                .category(p.getCategory())
+                .build();
+    }
+
+    @Override
+    public List<ProductResponse> viewAll() {
+        return repo.findAll().stream().map(this::map).toList();
+    }
+
+    @Override
+    public List<ProductResponse> viewByCategory(String category) {
+        return repo.findByCategoryIgnoreCase(category).stream().map(this::map).toList();
+    }
+
+    @Override
+    public List<ProductResponse> viewByProductName(String productName) {
+        return repo.findByProductNameContainingIgnoreCase(productName).stream().map(this::map).toList();
+    }
+
+    @Override
+    public List<ProductResponse> viewByVendorName(String vendorName) {
+        return repo.findByVendorNameContainingIgnoreCase(vendorName).stream().map(this::map).toList();
+    }
+
+    @Override
+    public ProductResponse getById(Long productId) {
+        Product p = repo.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found: " + productId));
+        return map(p);
+    }
+}

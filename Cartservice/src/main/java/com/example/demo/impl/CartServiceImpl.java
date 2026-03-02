@@ -1,0 +1,73 @@
+package com.example.demo.impl;
+
+import com.example.demo.client.SecurityClient;
+import com.example.demo.dto.*;
+import com.example.demo.entity.CartItem;
+import com.example.demo.repo.CartRepo;
+import com.example.demo.service.CartService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class CartServiceImpl implements CartService {
+
+    private final CartRepo cartRepo;
+    private final SecurityClient securityClient;
+
+    private Long resolveUserId(String username) {
+        SecurityClient.InternalUserResponse user = securityClient.getUser(username);
+        if (user == null || user.userId == null) {
+            throw new RuntimeException("User not found in security service: " + username);
+        }
+        return user.userId;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CartItem> getMyCart(String username) {
+        Long userId = resolveUserId(username);
+        return cartRepo.findByUserId(userId);
+    }
+
+    @Override
+    public CartItem add(String username, CartAddRequest req) {
+        Long userId = resolveUserId(username);
+
+        CartItem item = cartRepo.findByUserIdAndProductId(userId, req.getProductId())
+                .orElse(CartItem.builder()
+                        .userId(userId)
+                        .productId(req.getProductId())
+                        .quantity(0)
+                        .build());
+
+        item.setQuantity(item.getQuantity() + req.getQuantity());
+        return cartRepo.save(item);
+    }
+
+    @Override
+    public CartItem update(String username, CartUpdateRequest req) {
+        Long userId = resolveUserId(username);
+
+        CartItem item = cartRepo.findByUserIdAndProductId(userId, req.getProductId())
+                .orElseThrow(() -> new RuntimeException("Cart item not found for productId=" + req.getProductId()));
+
+        item.setQuantity(item.getQuantity() + req.getQuantity());
+        return cartRepo.save(item);
+    }
+
+    @Override
+    public String remove(String username, CartRemoveRequest req) {
+        Long userId = resolveUserId(username);
+
+        CartItem item = cartRepo.findByUserIdAndProductId(userId, req.getProductId())
+                .orElseThrow(() -> new RuntimeException("Cart item not found for productId=" + req.getProductId()));
+
+        cartRepo.delete(item);
+        return "Removed productId=" + req.getProductId() + " from cart";
+    }
+}

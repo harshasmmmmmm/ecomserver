@@ -1,0 +1,17 @@
+package com.example.demo.client;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
+
+@FeignClient(name = "sSpringSecurityService", url = "${services.auth}")
+public interface AuthClient {
+
+    @GetMapping("/auth/internal/user")
+    InternalUserResponse getUser(@RequestParam("username") String username);
+
+    class InternalUserResponse {
+        public Long userId;
+        public String username;
+        public String role;
+    }
+}

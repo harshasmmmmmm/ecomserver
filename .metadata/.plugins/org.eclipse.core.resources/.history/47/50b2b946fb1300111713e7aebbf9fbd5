@@ -1,0 +1,14 @@
+package com.example.demo.dto;
+
+import java.math.BigDecimal;
+
+import lombok.*;
+
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class ProductInternalDTO {
+    private Long productId;
+    private String productName;
+    private  price;
+    private boolean active;
+    private Integer vendorId;
+}
