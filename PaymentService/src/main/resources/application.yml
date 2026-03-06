@@ -29,5 +29,5 @@ eureka:
       defaultZone: http://localhost:8061/eureka/
 
 razorpay:
-  keyId: rzp_test_SNoESMBY3v5VBc
-  keySecret: IDKQ5EINijLX1bGDRqFD4znP
+  keyId: 
+  keySecret: 
