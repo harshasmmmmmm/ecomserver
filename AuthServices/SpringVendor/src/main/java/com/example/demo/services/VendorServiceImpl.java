@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.client.OrderClient;
+import com.example.demo.dto.VendorDashboardDTO;
 import com.example.demo.model.Vendor;
 import com.example.demo.repo.VendorRepo;
 
@@ -13,6 +15,8 @@ public class VendorServiceImpl implements VendorService{
 
 	@Autowired
     private VendorRepo vendorRepo;
+	@Autowired
+	private OrderClient orderClient;
 
     @Override
     public Vendor createVendor(Vendor vendor) {
@@ -71,5 +75,19 @@ public class VendorServiceImpl implements VendorService{
     public Vendor getVendorById(Integer id){
         return vendorRepo.findById(id)
             .orElseThrow(() -> new RuntimeException("Vendor not found"));
+    }
+    @Override
+    public VendorDashboardDTO getDashboard(Long vendorId) {
+
+        Vendor vendor = vendorRepo.findById(vendorId.intValue())
+                .orElseThrow(() -> new RuntimeException("Vendor not found"));
+
+        VendorDashboardDTO dashboard = orderClient.getVendorDashboard(vendorId);
+
+        return VendorDashboardDTO.builder()
+                .vendorId(vendorId)
+                .totalProductsSold(dashboard.getTotalProductsSold())
+                .totalOrders(dashboard.getTotalOrders())
+                .build();
     }
 }

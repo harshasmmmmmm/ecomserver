@@ -86,5 +86,9 @@ public class ProductController {
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) throws Exception {
         return productService.getImageBytes(id);
     }
+    @GetMapping("/vendor/{vendorId}")
+    public List<ProductResponse> getProductsByVendor(@PathVariable Long vendorId) {
+        return productService.getProductsByVendor(vendorId);
+    }
     
 }

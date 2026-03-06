@@ -1,16 +1,18 @@
 spring:
   application:
     name: SpringSecurityService
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/ECom
-    username: postgres
-    password: slk@SOFT123
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://localhost:3306/ECom
+    username: root
+    password: Navanika@593
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
+
   cloud:
     config:
       enabled: false

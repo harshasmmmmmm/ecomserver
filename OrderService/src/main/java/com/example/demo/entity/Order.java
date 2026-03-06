@@ -36,4 +36,10 @@ public class Order {
 
     @Column(nullable = false)
     private LocalDateTime orderDate;
+
+    // ✅ ADD THIS
+    @Column(name = "vendor_id", nullable = false)
+    private Long vendorId;
+    private String productName;
+
 }

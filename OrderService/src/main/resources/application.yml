@@ -2,9 +2,9 @@ spring:
   application:
     name: OrderService
   datasource:
-    url: jdbc:postgresql://localhost:5432/ECom_Order
-    username: postgres
-    password: slk@SOFT123
+    url: jdbc:mysql://localhost:3306/ECom_Order
+    username: root
+    password: Navanika@593
   jpa:
     hibernate:
       ddl-auto: update

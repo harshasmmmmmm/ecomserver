@@ -205,4 +205,13 @@ public class ProductServiceImpl implements ProductService {
                 .contentType(type)
                 .body(bytes);
     }
+    @Override
+    public List<ProductResponse> getProductsByVendor(Long vendorId) {
+
+        List<Product> products = repo.findByVendorId(vendorId);
+
+        return products.stream()
+                .map(this::toResponse)
+                .toList();
+    }
 }

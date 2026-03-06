@@ -1,6 +1,8 @@
 package com.example.demo.config;
 
 import com.example.demo.security.JwtFilter;
+
+import feign.Request.HttpMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -23,9 +25,12 @@ public class SecurityConfig {
         http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/orders/internal/**").permitAll() // internal for payment-service later
-                .anyRequest().hasRole("CUSTOMER")                  // customer only
-        );
+        	    .requestMatchers("/orders/internal/**").permitAll()
+        	    .requestMatchers("/orders/vendor/**").hasAnyRole("VENDOR","ADMIN")
+
+                .requestMatchers("/orders/vendor/dashboard/**").hasAnyRole("VENDOR", "ADMIN")
+        	    .anyRequest().hasRole("CUSTOMER")
+        	);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -58,4 +58,14 @@ public class OrderController {
 
         return "Order cancelled";
     }
+    @GetMapping("/vendor/dashboard/{vendorId}")
+    public VendorDashboardDTO vendorDashboard(@PathVariable Long vendorId) {
+        return orderService.getVendorDashboard(vendorId);
+    }
+    @PutMapping("/vendor/{orderId}/deliver")
+    public String vendorMarkDelivered(Authentication auth, @PathVariable Long orderId) {
+        orderService.vendorMarkDelivered(auth.getName(), orderId);
+        return "Order marked as DELIVERED";
+    }
+
 }

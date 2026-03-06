@@ -16,4 +16,7 @@ public class OrderResponse {
     private OrderStatus orderStatus;
     private boolean paid;
     private LocalDateTime orderDate;
+    private Long vendorId;
+    private String productName;
+
 }
