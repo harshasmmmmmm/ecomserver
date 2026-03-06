@@ -79,12 +79,12 @@ public class RazorpayPaymentServiceImpl implements RazorpayPaymentService {
                                         RazorpayVerifyRequest req) {
 
         // ✅ TEMPORARY for testing (set true)
-        boolean paymentSuccess = true;
+//        boolean paymentSuccess = true;
 
         // If you want real verification later, use:
-        // String data = req.getRazorpayOrderId() + "|" + req.getRazorpayPaymentId();
-        // String expectedSignature = hmacSha256Hex(data, keySecret);
-        // boolean paymentSuccess = expectedSignature.equals(req.getRazorpaySignature());
+         String data = req.getRazorpayOrderId() + "|" + req.getRazorpayPaymentId();
+         String expectedSignature = hmacSha256Hex(data, keySecret);
+         boolean paymentSuccess = expectedSignature.equals(req.getRazorpaySignature());
 
         InternalOrderDTO internalOrder = webClient.get()
                 .uri(orderBaseUrl + "/orders/internal/{id}", req.getOrderId())

@@ -353,7 +353,6 @@ INDEX VERSION 1.134+C:\Users\harsha.s1\Desktop\ecomserver\.metadata\.plugins\org
 3551963480.index
 3586909505.index
 3240158434.index
-2123024657.index
 1125805251.index
 1254648758.index
 2231453906.index
