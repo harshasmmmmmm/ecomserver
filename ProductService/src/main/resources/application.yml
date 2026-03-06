@@ -2,9 +2,9 @@ spring:
   application:
     name: ProductService
   datasource:
-    url: jdbc:postgresql://localhost:5432/Product
-    username: postgres
-    password: slk@SOFT123
+    url: jdbc:mysql://localhost:3306/Product
+    username: root
+    password: Navanika@593
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,6 +23,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8061/eureka/
+
 app:
   upload:
-  dir: uploads
+    dir: uploads

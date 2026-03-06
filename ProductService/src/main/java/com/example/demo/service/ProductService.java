@@ -29,4 +29,5 @@ public interface ProductService {
     void saveImageToFolder(Long productId, MultipartFile file) throws Exception;
 
     ResponseEntity<byte[]> getImageBytes(Long productId) throws Exception;
+    List<ProductResponse> getProductsByVendor(Long vendorId);
 }

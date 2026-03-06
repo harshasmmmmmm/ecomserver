@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.VendorDashboardDTO;
 import com.example.demo.model.Vendor;
 import com.example.demo.services.VendorService;
 
@@ -61,5 +62,9 @@ import com.example.demo.services.VendorService;
 	    @GetMapping("/{id}")
 	    public Vendor getById(@PathVariable Integer id) {
 	        return vendorService.getVendorById(id);
+	    }
+	    @GetMapping("/{vendorId}/dashboard")
+	    public VendorDashboardDTO dashboard(@PathVariable Long vendorId) {
+	        return vendorService.getDashboard(vendorId);
 	    }
 	}

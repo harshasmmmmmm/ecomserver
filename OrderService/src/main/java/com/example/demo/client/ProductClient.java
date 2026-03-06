@@ -16,5 +16,6 @@ public interface ProductClient {
         public String productName;
         public BigDecimal price;
         public boolean active;
+        public Long vendorId; 
     }
 }

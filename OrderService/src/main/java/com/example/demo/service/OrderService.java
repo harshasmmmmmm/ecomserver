@@ -16,4 +16,7 @@ public interface OrderService {
     InternalOrderDTO internalGet(Long orderId);
     void internalMarkPaid(Long orderId);
     void cancelOrder(String username, Long orderId);
+    VendorDashboardDTO getVendorDashboard(Long vendorId);
+    void vendorMarkDelivered(String username, Long orderId);
+
 }

@@ -35,6 +35,8 @@ public class OrderServiceImpl implements OrderService {
                 .orderId(o.getOrderId())
                 .userId(o.getUserId())
                 .productId(o.getProductId())
+                .vendorId(o.getVendorId())     // ✅
+                .productName(o.getProductName()) // ✅
                 .quantity(o.getQuantity())
                 .orderValue(o.getOrderValue())
                 .orderStatus(o.getOrderStatus())
@@ -58,6 +60,8 @@ public class OrderServiceImpl implements OrderService {
         Order order = Order.builder()
                 .userId(userId)
                 .productId(req.getProductId())
+                .vendorId(product.vendorId)        // ✅ ADD
+                .productName(product.productName)  // ✅ ADD
                 .quantity(req.getQuantity())
                 .orderValue(total)
                 .orderStatus(OrderStatus.PLACED)
@@ -160,4 +164,43 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepo.save(order);
     }
+    @Override
+    @Transactional(readOnly = true)
+    public VendorDashboardDTO getVendorDashboard(Long vendorId) {
+
+        List<Order> orders = orderRepo.findByVendorId(vendorId);
+
+        int totalSold = orders.stream()
+                .mapToInt(Order::getQuantity)
+                .sum();
+
+        int totalOrders = orders.size();
+
+        return VendorDashboardDTO.builder()
+                .vendorId(vendorId)
+                .totalProductsSold(totalSold)
+                .totalOrders(totalOrders)
+                .build();
+    }
+    @Override
+    public void vendorMarkDelivered(String username, Long orderId) {
+        Long userId = resolveUserId(username);
+
+        Order order = orderRepo.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        // vendor can deliver only own order
+        if (!order.getVendorId().equals(userId)) {
+            throw new RuntimeException("This order does not belong to you");
+        }
+
+        // allow only when shipped
+        if (order.getOrderStatus() != OrderStatus.SHIPPED) {
+            throw new RuntimeException("Only SHIPPED orders can be marked DELIVERED");
+        }
+
+        order.setOrderStatus(OrderStatus.DELIVERED);
+        orderRepo.save(order);
+    }
+
 }
